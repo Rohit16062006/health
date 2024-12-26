@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Monitoring Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        nav {
+            background-color: #333;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        li {
+            list-style: none;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        hr {
+            margin: 1rem 0;
+            border: 0;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Health Monitoring Website</h1>
+    </header>
+    <nav>
+        <a href="#" onclick="goToPage('home')">Home</a>
+        <a href="#" onclick="goToPage('login')">Login</a>
+        <a href="#" onclick="goToPage('register')">Register</a>
+    </nav>
+
+    <div class="container" id="home-page">
+        <h2>Welcome to the Health Monitoring Website</h2>
+        <p>Monitor your mental, emotional, and physical health with ease.</p>
+    </div>
+
+    <div class="container" id="login-page" style="display:none;">
+        <h2>Login to Access Services</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div class="container" id="services" style="display:none;">
+        <h2>Choose a Service</h2>
+        <button onclick="showService('companion')">Need a Companion</button>
+        <button onclick="showService('nursing')">Home Nursing</button>
+        <button onclick="showService('adoption')">Adoption</button>
+        <button onclick="showService('get-job')">Get a Job</button>
+        <button onclick="goToPage('login')">Back</button>
+    </div>
+
+    <div class="container" id="companion-service" style="display:none;">
+        <h2>Available Companions</h2>
+        <ul id="companions-list"></ul>
+        <button onclick="goToPage('services')">Back</button>
+    </div>
+
+    <div class="container" id="nursing-service" style="display:none;">
+        <h2>Available Nurses</h2>
+        <ul id="nurses-list"></ul>
+        <button onclick="goToPage('services')">Back</button>
+    </div>
+
+    <div class="container" id="adoption-service" style="display:none;">
+        <h2>Children Available for Adoption</h2>
+        <ul id="adoption-list"></ul>
+        <button onclick="goToPage('services')">Back</button>
+    </div>
+
+    <div class="container" id="get-job-service" style="display:none;">
+        <h2>Offer Your Services</h2>
+        <button onclick="showJobForm('companion')">Be a Companion</button>
+        <button onclick="showJobForm('nursing')">Home Nursing</button>
+        <div id="job-form" style="margin-top: 20px; display:none;"></div>
+        <button onclick="goToPage('services')">Back</button>
+    </div>
+
+    <script>
+        const companions = [
+            {name: "Alice", mobile: "9876543210", cost: "$15/hour", ranking: 5},
+            {name: "Bob", mobile: "9876543211", cost: "$20/hour", ranking: 4},
+            {name: "Charlie", mobile: "9876543212", cost: "$18/hour", ranking: 5}
+        ];
+
+        const nurses = [
+            {name: "Nancy", mobile: "9876543213", cost: "$25/hour", ranking: 5},
+            {name: "John", mobile: "9876543214", cost: "$30/hour", ranking: 4},
+            {name: "Sarah", mobile: "9876543215", cost: "$28/hour", ranking: 5}
+        ];
+
+        const adoptionChildren = [
+            {name: "Emily", age: 3, gender: "Female", background: "Loves drawing and playing with dolls", healthStatus: "Healthy", caseId: "AD001"},
+            {name: "Michael", age: 5, gender: "Male", background: "Energetic and loves sports", healthStatus: "Minor asthma", caseId: "AD002"},
+            {name: "Sofia", age: 2, gender: "Female", background: "Sweet and gentle personality", healthStatus: "Healthy", caseId: "AD003"},
+            {name: "Lucas", age: 4, gender: "Male", background: "Curious and loves learning", healthStatus: "Healthy", caseId: "AD004"},
+            {name: "Isabella", age: 1, gender: "Female", background: "Happy and social baby", healthStatus: "Healthy", caseId: "AD005"}
+        ];
+
+        function showService(service) {
+            document.querySelectorAll('.container').forEach(c => c.style.display = 'none');
+            document.getElementById(service + '-service').style.display = 'block';
+            if (service === 'companion') {
+                showCompanions();
+            } else if (service === 'nursing') {
+                showNurses();
+            } else if (service === 'adoption') {
+                showAdoption();
+            }
+        }
+
+        function showAdoption() {
+            const adoptionList = document.getElementById('adoption-list');
+            adoptionList.innerHTML = '';
+            adoptionChildren.forEach(child => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <b>Name:</b> ${child.name}<br>
+                    <b>Age:</b> ${child.age} years<br>
+                    <b>Gender:</b> ${child.gender}<br>
+                    <b>Background:</b> ${child.background}<br>
+                    <b>Health Status:</b> ${child.healthStatus}<br>
+                    <b>Case ID:</b> ${child.caseId}<br>
+                    <button onclick="initiateAdoption('${child.caseId}')">Request Adoption</button>
+                `;
+                adoptionList.appendChild(li);
+            });
+        }
+
+        function initiateAdoption(caseId) {
+            const confirmed = confirm("This will initiate the adoption process. Our team will contact you for verification and further steps. Do you wish to proceed?");
+            if (confirmed) {
+                alert(`Adoption request initiated for Case ID: ${caseId}. Our team will contact you within 24 hours.`);
+            }
+        }
+
+        function showCompanions() {
+            const companionsList = document.getElementById('companions-list');
+            companionsList.innerHTML = '';
+            companions.forEach(companion => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <b>Name:</b> ${companion.name}<br>
+                    <b>Mobile:</b> ${companion.mobile}<br>
+                    <b>Cost:</b> ${companion.cost}<br>
+                    <b>Ranking:</b> ${companion.ranking}<br>
+                    <button onclick="bookCompanion('${companion.name}')">Book Companion</button>
+                `;
+                companionsList.appendChild(li);
+            });
+        }
+
+        function bookCompanion(name) {
+            const location = prompt("Enter your location for booking:");
+            if (location) {
+                alert(`${name} has been booked! Location: ${location}`);
+            }
+        }
+
+        function showNurses() {
+            const nursesList = document.getElementById('nurses-list');
+            nursesList.innerHTML = '';
+            nurses.forEach(nurse => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <b>Name:</b> ${nurse.name}<br>
+                    <b>Mobile:</b> ${nurse.mobile}<br>
+                    <b>Cost:</b> ${nurse.cost}<br>
+                    <b>Ranking:</b> ${nurse.ranking}<br>
+                    <button onclick="bookNurse('${nurse.name}')">Book Nurse</button>
+                `;
+                nursesList.appendChild(li);
+            });
+        }
+
+        function bookNurse(name) {
+            const location = prompt("Enter your location for booking:");
+            if (location) {
+                alert(`${name} has been booked! Location: ${location}`);
+            }
+        }
+
+        function showJobForm(type) {
+            const form = document.getElementById('job-form');
+            form.style.display = 'block';
+            if (type === 'companion') {
+                form.innerHTML = `
+                    <h3>Be a Companion</h3>
+                    <form onsubmit="submitCompanionForm(event)">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile">Mobile Number:</label>
+                            <input type="text" id="mobile" name="mobile" required>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                `;
+            } else if (type === 'nursing') {
+                form.innerHTML = `
+                    <h3>Be a Home Nurse</h3>
+                    <form onsubmit="submitNurseForm(event)">
+                        <div class="form-group">
+                            <label for="certificate">Upload Nursing Certificate:</label>
+                            <input type="file" id="certificate" name="certificate" required>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                `;
+            }
+        }
+
+        function submitCompanionForm(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const mobile = document.getElementById('mobile').value;
+            companions.push({name, mobile, cost: "$20/hour", ranking: 4});
+            alert('Companion submitted successfully!');
+            goToPage('services');
+        }
+
+        function submitNurseForm(event) {
+            event.preventDefault();
+            const certificate = document.getElementById('certificate').files[0];
+            alert('Nurse submitted successfully!');
+            goToPage('services');
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            if (email && password) {
+                alert('Login Successful');
+                goToPage('services');
+            } else {
+                alert('Please enter valid login details.');
+            }
+        });
+
+        function goToPage(page) {
+            document.querySelectorAll('.container').forEach(c => c.style.display = 'none');
+            if (page === 'home') {
+                document.getElementById('home-page').style.display = 'block';
+            } else if (page === 'login') {
+                document.getElementById('login-page').style.display = 'block';
+            } else if (page === 'services') {
+                document.getElementById('services').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

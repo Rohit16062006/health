@@ -1,0 +1,217 @@
+/* Modern Health Theme Colors */
+:root {
+    --primary: #00BFA6;
+    --secondary: #4D4DFF;
+    --accent: #FF6B6B;
+    --background: #F8F9FA;
+    --text: #2D3436;
+    --light: #FFFFFF;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Header Styles */
+header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 2rem;
+    color: var(--light);
+    box-shadow: 0 4px 6px var(--shadow);
+    background-image: url('/api/placeholder/1920/300');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 191, 166, 0.9), rgba(77, 77, 255, 0.9));
+}
+
+header h1 {
+    position: relative;
+    text-align: center;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation */
+nav {
+    background-color: var(--light);
+    padding: 1rem;
+    box-shadow: 0 2px 4px var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    color: var(--text);
+    text-decoration: none;
+    margin: 0 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background-color: var(--primary);
+    color: var(--light);
+}
+
+/* Container Styles */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--light);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--shadow);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* Button Styles */
+button {
+    background-color: var(--primary);
+    color: var(--light);
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background-color: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow);
+}
+
+/* Service Cards */
+.service-card {
+    background-color: var(--light);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+/* List Styles */
+li {
+    list-style: none;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: var(--light);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+li:hover {
+    transform: translateY(-3px);
+}
+
+/* Service Icons */
+.service-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    nav {
+        padding: 0.5rem;
+    }
+
+    nav a {
+        margin: 0 0.5rem;
+        padding: 0.3rem 0.8rem;
+    }
+
+    .container {
+        padding: 1rem;
+        margin: 1rem;
+    }
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
